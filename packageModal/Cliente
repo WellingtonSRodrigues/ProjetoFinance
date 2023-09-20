@@ -1,0 +1,61 @@
+package model;
+
+public class Cliente {
+	
+public int idCli;
+public String nomeCli;
+public double salario;
+public String senha;
+
+public Cliente(int idCli) {
+	super();
+	this.idCli = idCli;
+}
+
+public Cliente(int idCli, String nomeCli, double salario, String senha) {
+	super();
+	this.idCli = idCli;
+	this.nomeCli = nomeCli;
+	this.salario = salario;
+	this.senha = senha;
+}
+public Cliente(String nomeCli, double salario,String senha) {
+	super();
+	
+	this.nomeCli = nomeCli;
+	this.salario = salario;
+	this.senha = senha;
+	
+}
+public Cliente() {
+	super();
+}
+
+public int getIdCli() {
+	return idCli;
+}
+
+public void setIdCli(int idCli) {
+	this.idCli = idCli;
+}
+public String getnomeCli() {
+	return nomeCli;
+}
+public void setNomeCli(String nomeCli) {
+	this.nomeCli = nomeCli;
+}
+public double getSalario() {
+	return salario;
+	
+}
+public void setSalario(double salario) {
+	this.salario = salario;
+}
+public String getSenha() {
+	return senha;
+}
+public void setSenha(String senha) {
+	this.senha = senha;
+}
+
+}
