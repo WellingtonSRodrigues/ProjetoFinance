@@ -1,0 +1,206 @@
+package view;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.CardLayout;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JPasswordField;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.Color;
+
+public class JanelaCliente extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField tfNomeCli;
+	private JTextField tfIdCli;
+	private JTextField tfCpf;
+	private JTextField tfSobreNome;
+	private JPasswordField pasTfSenha;
+	private JPasswordField tfSalarioOculto;
+	private JTextField tfSalarioVisivel;
+	private JTextField tfSalarioOculto1;
+	JButton btnCancelaCadastro = new JButton("Cancelar");
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					JanelaCliente frame = new JanelaCliente();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public JanelaCliente() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 263, 420);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(new CardLayout(0, 0));
+		
+		JPanel pnCadCli = new JPanel();
+		contentPane.add(pnCadCli, "pnCadCli");
+		pnCadCli.setLayout(null);
+		
+		tfNomeCli = new JTextField();
+		tfNomeCli.setEditable(false);
+		tfNomeCli.setBounds(10, 134, 207, 20);
+		pnCadCli.add(tfNomeCli);
+		tfNomeCli.setColumns(10);
+		
+		tfIdCli = new JTextField();
+		tfIdCli.setBounds(10, 65, 59, 20);
+		pnCadCli.add(tfIdCli);
+		tfIdCli.setColumns(10);
+		
+		tfCpf = new JTextField();
+		tfCpf.setEditable(false);
+		tfCpf.setBounds(10, 229, 152, 20);
+		pnCadCli.add(tfCpf);
+		tfCpf.setColumns(10);
+		
+		JLabel lbIdCli = new JLabel("ID_Cli:");
+		lbIdCli.setBounds(10, 52, 46, 14);
+		pnCadCli.add(lbIdCli);
+		
+		JLabel lbNomeCli = new JLabel("Nome_Cli:");
+		lbNomeCli.setBounds(10, 118, 80, 14);
+		pnCadCli.add(lbNomeCli);
+		
+		JLabel lbCpf = new JLabel("CPF:");
+		lbCpf.setBounds(10, 205, 46, 14);
+		pnCadCli.add(lbCpf);
+		
+		JLabel ilSalario = new JLabel("Sal\u00E1rio:");
+		ilSalario.setBounds(10, 260, 46, 14);
+		pnCadCli.add(ilSalario);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(861, 165, -522, 102);
+		pnCadCli.add(scrollPane);
+		
+		tfSobreNome = new JTextField();
+		tfSobreNome.setEditable(false);
+		tfSobreNome.setBounds(10, 180, 207, 20);
+		pnCadCli.add(tfSobreNome);
+		tfSobreNome.setColumns(10);
+		
+		JLabel lbSobreNome = new JLabel("Sobre_Nome:");
+		lbSobreNome.setBounds(10, 165, 106, 14);
+		pnCadCli.add(lbSobreNome);
+		
+		JLabel lbSenha = new JLabel("Senha:");
+		lbSenha.setBounds(79, 52, 46, 14);
+		pnCadCli.add(lbSenha);
+		
+		pasTfSenha = new JPasswordField();
+		pasTfSenha.setBounds(79, 65, 92, 20);
+		pnCadCli.add(pasTfSenha);
+		
+		JButton btLogar = new JButton("Ok");
+		btLogar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btLogar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btLogar.setBounds(171, 64, 56, 21);
+		pnCadCli.add(btLogar);
+		
+		JButton btConfirmaCadastro = new JButton("Confirma");
+		btConfirmaCadastro.setEnabled(false);
+		btConfirmaCadastro.setBounds(7, 304, 89, 23);
+		pnCadCli.add(btConfirmaCadastro);
+		
+		JButton btVer = new JButton("Ver");
+		btVer.setEnabled(false);
+		btVer.setBounds(106, 272, 56, 23);
+		pnCadCli.add(btVer);
+		
+		
+		tfSalarioVisivel = new JTextField();
+		tfSalarioVisivel.setEditable(false);
+		tfSalarioVisivel.setBounds(10, 273, 86, 20);
+		pnCadCli.add(tfSalarioVisivel);
+		tfSalarioVisivel.setColumns(10);
+		
+		tfSalarioOculto1 = new JTextField();
+		tfSalarioOculto1.setHorizontalAlignment(SwingConstants.CENTER);
+		tfSalarioOculto1.setText("****");
+		tfSalarioOculto1.setBounds(10, 338, 86, 20);
+		pnCadCli.add(tfSalarioOculto1);
+		tfSalarioOculto1.setColumns(10);
+		
+		JButton btnCadastrarCli = new JButton("Cadastrar:");
+		btnCadastrarCli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				btnCadastrarCli.setEnabled(true);//tornando o botão btnCadastrarCliente inativo.
+				tfIdCli.setText(null);// limpando a Tf IdCli;
+				tfIdCli.setEditable(true);
+				tfNomeCli.setEnabled(true);
+				tfNomeCli.setEditable(true);
+				tfSobreNome.setEnabled(true);
+				tfSobreNome.setEditable(true);
+				tfCpf.setEnabled(true);
+				tfCpf.setEditable(true);
+				tfSalarioVisivel.setEnabled(true);
+				tfSalarioVisivel.setEditable(true);
+				btVer.setEnabled(true);
+				btnCadastrarCli.setEnabled(true);
+				btConfirmaCadastro.setEnabled(true);
+				btnCancelaCadastro.setVisible(true);// Tornando o botão CancelaCadastro visivel;
+				
+			}
+		});
+		btnCadastrarCli.setBounds(10, 84, 217, 23);
+		pnCadCli.add(btnCadastrarCli);
+		//***** Rio 27/09/2023 *****\\
+	
+		btnCancelaCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			/*---> Adionaer ação*/
+				btnCadastrarCli.setEnabled(false);// Tornando o Botão CadastrarCli Inativo;
+				tfIdCli.setEnabled(true);// Tornando a tfIdCli Inativa;
+				tfNomeCli.setEnabled(false);// Tornando a tfNomeCli ativa;
+				tfNomeCli.setEditable(false);// Tornando a tfNomeli Editável;
+				tfNomeCli.setText(null);//Linpando tf;
+				tfSobreNome.setEnabled(false);// Tornando a tfSobrenome ativa;
+				tfSobreNome.setEditable(false);// Tornando a tfSobrenome Editável;
+				tfSobreNome.setText(null);//Linpando tf;
+				tfCpf.setEnabled(false);// Tornando a tfCpf ativa;
+				tfCpf.setEditable(false);// Tornando a tfCpf Editável;
+				tfCpf.setText(null);//Linpando tf;
+				tfSalarioVisivel.setEnabled(false);// Tornando a tfSalario ativa;
+				tfSalarioVisivel.setEditable(false);// Tornando a tfSalario Editável;
+				tfSalarioVisivel.setText(null);
+				btConfirmaCadastro.setEnabled(false);// Tornando o Botão ConfirmaCadastro ativo;
+				btnCancelaCadastro.setVisible(false);// Tornando o botão CancelaCadastro não visivel;
+			}
+		});
+		btnCancelaCadastro.setBounds(116, 304, 89, 23);
+		btnCancelaCadastro.setVisible(false);
+		pnCadCli.add(btnCancelaCadastro);
+		JPanel pnPrincipal = new JPanel();
+		contentPane.add(pnPrincipal, "pnPrincipal");
+	}
+}
