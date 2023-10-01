@@ -8,10 +8,14 @@ import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import modelDao.ClienteDao;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -31,6 +35,11 @@ public class JanelaCliente extends JFrame {
 	private JTextField tfSalarioVisivel;
 	private JTextField tfSalarioOculto1;
 	JButton btnCancelaCadastro = new JButton("Cancelar");
+	JButton btConfirmaCadastro = new JButton("Confirma");
+	JButton btnCadastrarCli = new JButton("Cadastrar:");
+	JButton btLogar = new JButton("Ok");
+	JButton btVer = new JButton("Ver");
+	private JTextField tfSenhaSys;
 	/**
 	 * Launch the application.
 	 */
@@ -50,6 +59,51 @@ public class JanelaCliente extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	// MÉTODOS:
+	//--->MÉTODO DESATIVAÇÃO DE TF's PARA CADASTRO DE CLIENTE
+	public void desativarTfCadastro() {
+		
+		btnCadastrarCli.setEnabled(true);// Tornando o Botão CadastrarCli Inativo;
+		tfIdCli.setEnabled(true);// Tornando a tfIdCli Inativa;
+		tfNomeCli.setEnabled(false);// Tornando a tfNomeCli ativa;
+		tfNomeCli.setEditable(false);// Tornando a tfNomeli Editável;
+		tfNomeCli.setText(null);//Linpando tf;
+		tfSobreNome.setEnabled(false);// Tornando a tfSobrenome ativa;
+		tfSobreNome.setEditable(false);// Tornando a tfSobrenome Editável;
+		tfSobreNome.setText(null);//Linpando tf;
+		tfCpf.setEnabled(false);// Tornando a tfCpf ativa;
+		tfCpf.setEditable(false);// Tornando a tfCpf Editável;
+		tfCpf.setText(null);//Linpando tf;
+		tfSalarioVisivel.setEnabled(false);// Tornando a tfSalario ativa;
+		tfSalarioVisivel.setEditable(false);// Tornando a tfSalario Editável;
+		tfSalarioVisivel.setText(null);
+		btConfirmaCadastro.setEnabled(false);// Tornando o Botão ConfirmaCadastro ativo;
+		btnCancelaCadastro.setVisible(false);// Tornando o botão CancelaCadastro não visivel;
+		btLogar.setVisible(true);
+		tfIdCli.setEditable(true);
+	}
+	//---> MÉTODO DE ATIVAÇÃO DAS TF's PARA CADASTRO
+	
+	public void ativarTfCadastro() {
+
+		pasTfSenha.requestFocus();
+		btnCadastrarCli.setEnabled(false);//tornando o botão btnCadastrarCliente inativo.
+		tfIdCli.setText(null);// limpando a Tf IdCli;
+		tfIdCli.setEditable(false);
+		tfNomeCli.setEnabled(true);
+		tfNomeCli.setEditable(true);
+		tfSobreNome.setEnabled(true);
+		tfSobreNome.setEditable(true);
+		tfCpf.setEnabled(true);
+		tfCpf.setEditable(true);
+		tfSalarioVisivel.setEnabled(true);
+		tfSalarioVisivel.setEditable(true);
+		btVer.setEnabled(true);
+		btConfirmaCadastro.setEnabled(true);
+		btnCancelaCadastro.setVisible(true);// Tornando o botão CancelaCadastro visivel;
+		btLogar.setVisible(false);// Tornando o botão logar Invisivel;
+	}
+	
 	public JanelaCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 263, 420);
@@ -118,27 +172,87 @@ public class JanelaCliente extends JFrame {
 		pasTfSenha.setBounds(79, 65, 92, 20);
 		pnCadCli.add(pasTfSenha);
 		
-		JButton btLogar = new JButton("Ok");
+		
 		btLogar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
 			}
 		});
 		btLogar.setBounds(171, 64, 56, 21);
 		pnCadCli.add(btLogar);
 		
-		JButton btConfirmaCadastro = new JButton("Confirma");
+		
+		btConfirmaCadastro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*Inplementando condição que verifica se um dos campos obrigatórios estão vasios
+				 * ->Se o campo nome do cliente ou o campo senha estiverem vazios, a aplicação
+				 *    mostrará na tela uma mensagem avisando que um dos campos está vazio;
+				 * ->Caso todos os campos obrigatórios estejam preenchido corretamente a aplicação deverá 
+				 *   executar as seguintes tarefas:
+				 *   	--> Gravar as finformações no bd;
+				 *   	--> limpar as Tf's do painel;
+				 *   	--> Mostrar uma mensagem informando que o cadastro foi realizado com sucesso;
+				 *   	--> Abrir o próximo o Painel principal*/
+				
+				if(tfNomeCli.getText().equals("")|| pasTfSenha.equals("")) {// Condição de verificação de campo
+					JOptionPane.showMessageDialog(null, "O Campo nome ou senha não foi preenchido");// mostrando janela de aviso de campo vazio;					
+				}else {//adicionando os comandos caso todos oscampos obrigatórios estejam preenchidos;
+				
+					String nomeCli= tfNomeCli.getText().toUpperCase();//PEGANDO TEXTO DA TF NOMECLI;
+					String sobrenome = tfSobreNome.getText().toUpperCase();//PEGANDO TEXTO DA TF SOBRENOMR;
+					String cpf = tfCpf.getText().toUpperCase();//PEGANDO TEXTO DA TF CPF;
+					String senha = pasTfSenha.getText();// PEGANDO TEXTO DA TF SENHA;
+					double salario = Double.parseDouble(tfSalarioVisivel.getText());//PEGANDO TEXTO DA TFSALARIO;
+					System.out.println(" Nome: "+nomeCli +"\n Sobrenome:"+sobrenome+"\n cpf: "+cpf+"\n senha: "+senha+"\n Salário: "+ salario);// MOSTRANDO NO CONSOLE AS INFORMAÇÕES CAPTURADAS NAS TF'S;
+					ClienteDao.cadastrarCli(nomeCli, sobrenome, cpf, senha, salario); //CHAMANDO MEDOTO DE CADASTRO DE CLIENTE NO BD;
+					
+					desativarTfCadastro();//LIMPANDO AS TF's  
+					
+				}
+			}
+		});
 		btConfirmaCadastro.setEnabled(false);
 		btConfirmaCadastro.setBounds(7, 304, 89, 23);
 		pnCadCli.add(btConfirmaCadastro);
 		
-		JButton btVer = new JButton("Ver");
+		
 		btVer.setEnabled(false);
 		btVer.setBounds(106, 272, 56, 23);
 		pnCadCli.add(btVer);
 		
 		
 		tfSalarioVisivel = new JTextField();
+		tfSalarioVisivel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*Inplementando condição que verifica se um dos campos obrigatórios estão vasios
+				 * ->Se o campo nome do cliente ou o campo senha estiverem vazios, a aplicação
+				 *    mostrará na tela uma mensagem avisando que um dos campos está vazio;
+				 * ->Caso todos os campos obrigatórios estejam preenchido corretamente a aplicação deverá 
+				 *   executar as seguintes tarefas:
+				 *   	--> Gravar as finformações no bd;
+				 *   	--> limpar as Tf's do painel;
+				 *   	--> Mostrar uma mensagem informando que o cadastro foi realizado com sucesso;
+				 *   	--> Abrir o próximo o Painel principal*/
+				
+				if(tfNomeCli.getText().equals("")|| pasTfSenha.equals("")) {// Condição de verificação de campo
+					JOptionPane.showMessageDialog(null, "O Campo nome ou senha não foi preenchido");// mostrando janela de aviso de campo vazio;					
+				}else {//adicionando os comandos caso todos oscampos obrigatórios estejam preenchidos;
+				
+					String nomeCli= tfNomeCli.getText().toUpperCase();//PEGANDO TEXTO DA TF CLIENTE E PONDO EM CX_ALTA;
+					String sobrenome = tfSobreNome.getText().toUpperCase();//PEGANDO O TEXTO DA TF SOBRENOME E PONDO EM CX_ALTA;
+					String cpf = tfCpf.getText().toUpperCase();//PEGANDO O TEXTO DS TF CPF E PONDO EM CAIXA ALTA; 
+					String senha = pasTfSenha.getText();//PEGNDO O TEXTO DA TF SENHA
+					double salario = Double.parseDouble(tfSalarioVisivel.getText());//PEGANDO O TEXTO DA TF SALÁRIO;
+					System.out.println(" Nome: "+nomeCli +"\n Sobrenome:"+sobrenome+"\n cpf: "+cpf+"\n senha: "+senha+"\n Salário: "+ salario); //MOSTRANDO NO CONSOLE AS INFORMAÇÕES COLIDAS
+					ClienteDao.cadastrarCli(nomeCli, sobrenome, cpf, senha, salario);//CHAMANDO O MÉTODOD DE CADASTRO DECLIENTE NO BD;
+					
+					desativarTfCadastro();// LIMPANDO AS TF'S
+					
+				}
+				
+			}
+		});
 		tfSalarioVisivel.setEditable(false);
 		tfSalarioVisivel.setBounds(10, 273, 86, 20);
 		pnCadCli.add(tfSalarioVisivel);
@@ -151,25 +265,10 @@ public class JanelaCliente extends JFrame {
 		pnCadCli.add(tfSalarioOculto1);
 		tfSalarioOculto1.setColumns(10);
 		
-		JButton btnCadastrarCli = new JButton("Cadastrar:");
+		
 		btnCadastrarCli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-				btnCadastrarCli.setEnabled(true);//tornando o botão btnCadastrarCliente inativo.
-				tfIdCli.setText(null);// limpando a Tf IdCli;
-				tfIdCli.setEditable(true);
-				tfNomeCli.setEnabled(true);
-				tfNomeCli.setEditable(true);
-				tfSobreNome.setEnabled(true);
-				tfSobreNome.setEditable(true);
-				tfCpf.setEnabled(true);
-				tfCpf.setEditable(true);
-				tfSalarioVisivel.setEnabled(true);
-				tfSalarioVisivel.setEditable(true);
-				btVer.setEnabled(true);
-				btnCadastrarCli.setEnabled(true);
-				btConfirmaCadastro.setEnabled(true);
-				btnCancelaCadastro.setVisible(true);// Tornando o botão CancelaCadastro visivel;
-				
+			ativarTfCadastro();
 			}
 		});
 		btnCadastrarCli.setBounds(10, 84, 217, 23);
@@ -178,28 +277,16 @@ public class JanelaCliente extends JFrame {
 	
 		btnCancelaCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			/*---> Adionaer ação*/
-				btnCadastrarCli.setEnabled(false);// Tornando o Botão CadastrarCli Inativo;
-				tfIdCli.setEnabled(true);// Tornando a tfIdCli Inativa;
-				tfNomeCli.setEnabled(false);// Tornando a tfNomeCli ativa;
-				tfNomeCli.setEditable(false);// Tornando a tfNomeli Editável;
-				tfNomeCli.setText(null);//Linpando tf;
-				tfSobreNome.setEnabled(false);// Tornando a tfSobrenome ativa;
-				tfSobreNome.setEditable(false);// Tornando a tfSobrenome Editável;
-				tfSobreNome.setText(null);//Linpando tf;
-				tfCpf.setEnabled(false);// Tornando a tfCpf ativa;
-				tfCpf.setEditable(false);// Tornando a tfCpf Editável;
-				tfCpf.setText(null);//Linpando tf;
-				tfSalarioVisivel.setEnabled(false);// Tornando a tfSalario ativa;
-				tfSalarioVisivel.setEditable(false);// Tornando a tfSalario Editável;
-				tfSalarioVisivel.setText(null);
-				btConfirmaCadastro.setEnabled(false);// Tornando o Botão ConfirmaCadastro ativo;
-				btnCancelaCadastro.setVisible(false);// Tornando o botão CancelaCadastro não visivel;
+			/*---> Adcionaer ação*/
+				 desativarTfCadastro();
+				
 			}
 		});
 		btnCancelaCadastro.setBounds(116, 304, 89, 23);
 		btnCancelaCadastro.setVisible(false);
 		pnCadCli.add(btnCancelaCadastro);
+		
+		
 		JPanel pnPrincipal = new JPanel();
 		contentPane.add(pnPrincipal, "pnPrincipal");
 	}
